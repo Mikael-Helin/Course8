@@ -14,3 +14,41 @@
 
 7. Thank you! :)
 
+
+suppressMessages(library(caret))
+set.seed(0)
+
+train<-read.csv(file="pml-training.csv", header=TRUE, sep=",",na.strings=c("NA","#DIV/0!",""))
+test<-read.csv(file="pml-testing.csv", header=TRUE, sep=",",na.strings=c("NA","#DIV/0!",""))
+
+mynames<-intersect(names(train[,colSums(is.na(train))/nrow(train)<0.8]),names(train))
+mynames<-mynames[grepl("accel",mynames)]
+
+train<-train[,c(mynames,"classe")]
+test<-test[,mynames]
+
+inTrain<-createDataPartition(y=train$classe,p=.6,list=F)
+training<-train[inTrain,]
+nonTraining<-train[-inTrain,]
+inTest<-createDataPartition(y=nonTraining$classe,p=.5,list=F)
+testing<-nonTraining[inTest,]
+validating<-nonTraining[-inTest,]
+
+mod_rf<-train(classe~.,data=training,method="rf")
+mod_gbm<-train(classe~.,data=training,method="gbm")
+mod_lda<-train(classe~.,data=training,method="lda")
+
+pred_rf<-predict(mod_rf,testing)
+pred_gbm<-predict(mod_gbm,testing)
+pred_lda<-predict(mod_lda,testing)
+confusionMatrix(pred_rf,testing$classe)$overall
+confusionMatrix(pred_gbm,testing$classe)$overall
+confusionMatrix(pred_lda,testing$classe)$overall
+
+DF_comb<-data.frame(pred_rf,pred_gbm,pred_lda,classe=testing$classe)
+mod_comb<-train(classe~.,method="gbm",data=DF_comb)
+pred_comb<-predict(mod_comb,DF_comb)
+confusionMatrix(pred_comb,validating$classe)$overall
+
+pred_quiz<-predict(mod_rf,test)
+
