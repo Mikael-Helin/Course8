@@ -1,3 +1,7 @@
+<html>
+<head>
+</head>
+<body>
 <h1>Course 8 Assignment</h1>
 <br>
 1.    First read the CSV and set na.strings=c("NA","#DIV/0!","") to make cleaning more simple.<br>
@@ -32,3 +36,5 @@ pred_rf<-predict(mod_rf,testing) pred_gbm<-predict(mod_gbm,testing) pred_lda<-pr
 DF_comb<-data.frame(pred_rf,pred_gbm,pred_lda,classe=testing$classe) mod_comb<-train(classe~.,method="gbm",data=DF_comb) pred_comb<-predict(mod_comb,DF_comb) confusionMatrix(pred_comb,validating$classe)$overall
 <br><br>
 pred_quiz<-predict(mod_rf,test)</h3>
+</body>
+</html>
