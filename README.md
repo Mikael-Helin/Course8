@@ -14,22 +14,3 @@
 
 7. Thank you! :)
 
-confusionMatrix(pred_rf,testing$classe)$overall
-      Accuracy          Kappa  AccuracyLower  AccuracyUpper 
-  0.9421361203   0.9268047385   0.9343667992   0.9492383388 
-  AccuracyNull AccuracyPValue  McnemarPValue 
-  0.2844761662   0.0000000000   0.0004292635 
-
-
-confusionMatrix(pred_gbm,testing$classe)$overall
-      Accuracy          Kappa  AccuracyLower  AccuracyUpper 
-  8.251338e-01   7.784878e-01   8.128790e-01   8.369023e-01 
-  AccuracyNull AccuracyPValue  McnemarPValue 
-  2.844762e-01   0.000000e+00   1.685778e-15 
-
-
-confusionMatrix(pred_lda,testing$classe)$overall
-      Accuracy          Kappa  AccuracyLower  AccuracyUpper 
-  5.197553e-01   3.844292e-01   5.039840e-01   5.354971e-01 
-  AccuracyNull AccuracyPValue  McnemarPValue 
-  2.844762e-01  6.696869e-210  5.161408e-114 
